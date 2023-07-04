@@ -1,4 +1,5 @@
 import React from 'react';
+import logoImg from '../img/logo.jpg';
 
 interface ILayout {
   children: React.ReactNode;
@@ -16,6 +17,9 @@ const Layout: React.FC<ILayout> = ({ children }) => {
         <main role='main' className='pb-3'>
           {children}
         </main>
+        <div className='d-flex align-items-center justify-content-center'>
+          <img src={logoImg} className='mt-5' width='275' height='200' alt='Traz Ins Logo' />
+        </div>
       </div>
       <footer className='border-top footer text-muted'>
         <div className='container'>&copy; 2023 - TrazinsApp</div>

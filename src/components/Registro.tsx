@@ -1,5 +1,4 @@
 import React from 'react';
-import logoImg from '../img/logo.jpg';
 import { Link } from 'react-router-dom';
 
 const Registro = () => {
@@ -75,8 +74,6 @@ const Registro = () => {
           </form>
         </div>
       </div>
-
-      <img src={logoImg} className='mt-5' width='275' height='200' alt='Traz Ins Logo' />
     </div>
   );
 };
