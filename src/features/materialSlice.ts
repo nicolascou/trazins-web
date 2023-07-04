@@ -27,6 +27,9 @@ export const materialSlice = createSlice({
     selectMaterial(state, action: PayloadAction<IMaterial>) {
       state.data.selectedMaterials.push(action.payload);
     },
+    deleteMaterial(state, action: PayloadAction<string>) {
+      state.data.selectedMaterials = state.data.selectedMaterials.filter((material) => material.codigo !== action.payload);
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -46,4 +49,4 @@ export const materialSlice = createSlice({
 
 export const materialReducer = materialSlice.reducer;
 
-export const { selectMaterial } = materialSlice.actions;
+export const { selectMaterial, deleteMaterial } = materialSlice.actions;
