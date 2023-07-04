@@ -1,44 +1,41 @@
 import React from 'react';
 import logoImg from '../img/logo.jpg';
+import { Link } from 'react-router-dom';
 
 const Registro = () => {
+  const handleSubmit = () => {
+    return;
+  };
+
   return (
     <div className='text-center'>
       <h1 className='display-5 mt-5 mb-4 color-dark'>Guardar Registro</h1>
       <div className='row'>
         <div className='col-md-10 m-auto mt-4'>
-          <form asp-action='Create' className='mb-3'>
+          <form onSubmit={handleSubmit} className='mb-3'>
             <div asp-validation-summary='ModelOnly' className='text-danger'></div>
             <div className='d-flex justify-content-between'>
               <div className='col-md-5'>
                 <div className='form-group'>
-                  <label asp-for='Intervencion' className='control-label mb-2'>
-                    Intervención:
-                  </label>
-                  <input asp-for='Intervencion' required className='form-control mb-3' />
-                  <span asp-validation-for='Intervencion' className='text-danger'></span>
+                  <label className='control-label mb-2'>Intervención:</label>
+                  <input required className='form-control mb-3' />
+                  <span className='text-danger'></span>
                 </div>
                 <div className='form-group'>
-                  <label asp-for='Gabinete' className='control-label mb-2'>
-                    Gabinete:
-                  </label>
-                  <input asp-for='Gabinete' className='form-control mb-3' />
-                  <span asp-validation-for='Gabinete' className='text-danger'></span>
+                  <label className='control-label mb-2'>Gabinete:</label>
+                  <input className='form-control mb-3' />
+                  <span className='text-danger'></span>
                 </div>
                 <div className='d-flex align-items-center gap-3 justify-content-between'>
                   <div className='form-group'>
-                    <label asp-for='NumeroHistoriaClinica' className='control-label mb-2'>
-                      Nº Historial Clínico:
-                    </label>
-                    <input asp-for='NumeroHistoriaClinica' className='form-control mb-3' />
-                    <span asp-validation-for='NumeroHistoriaClinica' className='text-danger'></span>
+                    <label className='control-label mb-2'>Nº Historial Clínico:</label>
+                    <input required className='form-control mb-3' />
+                    <span className='text-danger'></span>
                   </div>
                   <div className='form-group'>
-                    <label asp-for='Fecha' className='control-label mb-2'>
-                      Fecha:
-                    </label>
-                    <input id='dateInput' asp-for='Fecha' className='form-control mb-3' />
-                    <span asp-validation-for='Fecha' className='text-danger'></span>
+                    <label className='control-label mb-2'>Fecha:</label>
+                    <input type='datetime-local' defaultValue={new Date().toISOString().slice(0, 16)} className='form-control mb-3' />
+                    <span className='text-danger'></span>
                   </div>
                 </div>
               </div>
@@ -54,21 +51,21 @@ const Registro = () => {
                   <span className='text-danger'></span>
                 </div>
                 <div className='form-group mt-5'>
-                  <a href='/material?tipo=A' className='tipo-boton'>
+                  <Link to='/material?tipo=A' className='tipo-boton'>
                     <div className='tipo-boton__wrapper'>
                       A<span className='counter-circle'>0</span>
                     </div>
-                  </a>
-                  <a href='/material?tipo=B' className='tipo-boton'>
+                  </Link>
+                  <Link to='/material?tipo=B' className='tipo-boton'>
                     <div className='tipo-boton__wrapper'>
                       B<span className='counter-circle'>0</span>
                     </div>
-                  </a>
-                  <a href='/material?tipo=C' className='tipo-boton'>
+                  </Link>
+                  <Link to='/material?tipo=C' className='tipo-boton'>
                     <div className='tipo-boton__wrapper'>
                       C<span className='counter-circle'>0</span>
                     </div>
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>

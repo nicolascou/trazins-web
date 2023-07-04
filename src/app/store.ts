@@ -1,7 +1,12 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
+import { registroReducer } from '../features/registroSlice';
+import { materialReducer } from '../features/materialSlice';
 
 export const store = configureStore({
-  reducer: {},
+  reducer: {
+    registro: registroReducer,
+    material: materialReducer,
+  },
 });
 
 export type AppDispatch = typeof store.dispatch;
