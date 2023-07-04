@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useRef, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { getAllMaterials } from '../features/materialThunks';
 import { addMaterialToRegistro } from '../features/registroSlice';
@@ -11,6 +11,9 @@ const Registro = () => {
   const dispatch = useAppDispatch();
   const { registro, material } = useAppSelector((state) => state);
   const { materials } = material;
+
+  const navigate = useNavigate();
+  const formRef = useRef(null);
 
   useEffect(() => {
     dispatch(getAllMaterials());
@@ -40,8 +43,29 @@ const Registro = () => {
     }
   };
 
-  const handleSubmit = () => {
-    return;
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    if (formRef.current) {
+      const formData = new FormData(formRef.current);
+
+      let bodyObj = {
+        registro: {
+          intervencion: formData.get('intervencion')?.toString(),
+          gabinete: formData.get('gabinete')?.toString(),
+          numeroHistoriaClinica: formData.get('numeroHistoriaClinica')?.toString(),
+          fecha: formData.get('fecha')?.toString(),
+        },
+        materiales: registro.materials,
+      };
+
+      await fetch('http://localhost:5001/registro', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(bodyObj),
+      });
+      navigate('/');
+    }
   };
 
   return (
@@ -49,29 +73,35 @@ const Registro = () => {
       <h1 className='display-5 mt-5 mb-4 color-dark'>Guardar Registro</h1>
       <div className='row'>
         <div className='col-md-10 m-auto mt-4'>
-          <form onSubmit={handleSubmit} className='mb-3'>
+          <form ref={formRef} onSubmit={handleSubmit} className='mb-3'>
             <div asp-validation-summary='ModelOnly' className='text-danger'></div>
             <div className='d-flex justify-content-between'>
               <div className='col-md-5'>
                 <div className='form-group'>
                   <label className='control-label mb-2'>Intervención:</label>
-                  <input required className='form-control mb-3' />
+                  <input name='intervencion' required className='form-control mb-3' />
                   <span className='text-danger'></span>
                 </div>
                 <div className='form-group'>
                   <label className='control-label mb-2'>Gabinete:</label>
-                  <input className='form-control mb-3' />
+                  <input name='gabinete' required className='form-control mb-3' />
                   <span className='text-danger'></span>
                 </div>
                 <div className='d-flex align-items-center gap-3 justify-content-between'>
                   <div className='form-group'>
                     <label className='control-label mb-2'>Nº Historial Clínico:</label>
-                    <input required className='form-control mb-3' />
+                    <input name='numeroHistoriaClinica' required className='form-control mb-3' />
                     <span className='text-danger'></span>
                   </div>
                   <div className='form-group'>
                     <label className='control-label mb-2'>Fecha:</label>
-                    <input type='datetime-local' defaultValue={new Date().toISOString().slice(0, 16)} className='form-control mb-3' />
+                    <input
+                      name='fecha'
+                      required
+                      type='datetime-local'
+                      defaultValue={new Date().toISOString().slice(0, 16)}
+                      className='form-control mb-3'
+                    />
                     <span className='text-danger'></span>
                   </div>
                 </div>
