@@ -13,7 +13,7 @@ const Layout: React.FC<ILayout> = ({ children }) => {
       <ToastContainer autoClose={1500} />
       <header>
         <nav className='navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white navbar-border mb-3'>
-          <h1 className='m-auto mb-2 mt-2 title'>TRAZ INS - Gestión y Trazabilidad del Instrumental Quirúrgico</h1>
+          <h1 className='m-auto mb-2 mt-2 title'>Traz Ins - Gestión y Trazabilidad del Instrumental Quirúrgico</h1>
         </nav>
       </header>
       <div className='container'>

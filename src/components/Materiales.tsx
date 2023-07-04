@@ -30,7 +30,12 @@ const Materiales = () => {
     }
   }, [selectedMaterials, type, allMaterials.length, dispatch]);
 
-  const add = () => {
+  const addMaterial = () => {
+    if (!/^[A-C][0-9]{4}$/.test(addInputCode)) {
+      toast.error('Código de material inválido');
+      return;
+    }
+
     for (let material of selectedMaterials) {
       if (material.codigo === addInputCode) {
         toast.error('El material ya está añadido');
@@ -55,9 +60,13 @@ const Materiales = () => {
   };
 
   const remove = () => {
+    if (!/^[A-C][0-9]{4}$/.test(deleteInputCode)) {
+      toast.error('Código de material inválido');
+      return;
+    }
     dispatch(deleteMaterial(deleteInputCode));
     setDeleteInputCode('');
-    toast.success('Material Eliminado!');
+    toast.success('Material eliminado!');
   };
 
   return (
@@ -93,7 +102,7 @@ const Materiales = () => {
         <div className='d-flex flex-column align-items-center'>
           <div className='d-flex gap-2 my-4'>
             <input type='text' value={addInputCode} onChange={(e) => setAddInputCode(e.target.value)} className='form-control' />
-            <button onClick={add} className='btn form-boton'>
+            <button onClick={addMaterial} className='btn form-boton'>
               Añadir
             </button>
           </div>
