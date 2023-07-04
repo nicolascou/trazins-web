@@ -1,20 +1,24 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { IMaterial } from '../types/models';
 import { Link, useLocation } from 'react-router-dom';
+import { useAppSelector } from '../app/hooks';
 
 const Materiales = () => {
-  const [materiales, setMateriales] = useState([]);
+  const { selectedMaterials } = useAppSelector((state) => state.material.data);
+  const [materialList, setMaterialList] = useState<IMaterial[]>([]);
+
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const type = searchParams.get('tipo');
 
+  const searchAll = async () => {
+    const res = await fetch(`http://localhost:5001/material?tipo=${type}`);
+    setMaterialList(await res.json());
+  };
+
   useEffect(() => {
-    const fetchData = async () => {
-      const res = await fetch(`http://localhost:5001/material?tipo=${type}`);
-      setMateriales(await res.json());
-    };
-    fetchData();
-  }, [type]);
+    setMaterialList(selectedMaterials.filter((material) => material.tipo === type));
+  }, []);
 
   return (
     <div className='row gap-5 mt-5'>
@@ -29,7 +33,7 @@ const Materiales = () => {
             </tr>
           </thead>
           <tbody>
-            {materiales.map((material: IMaterial) => (
+            {materialList.map((material: IMaterial) => (
               <tr>
                 <td className='fw-semibold'>{material.tipo}</td>
                 <td>{material.nombre}</td>
@@ -41,9 +45,9 @@ const Materiales = () => {
       </div>
       <div className='col-md-4 d-flex align-items-start mt-5'>
         <div className='d-flex flex-column align-items-center'>
-          <Link to='/material?tipo=all' className='btn form-boton mb-4'>
+          <button onClick={searchAll} className='btn form-boton mb-4'>
             Buscar
-          </Link>
+          </button>
           <div className='d-flex gap-2 my-4'>
             <input type='text' className='form-control' />
             <button className='btn form-boton'>Añadir</button>
