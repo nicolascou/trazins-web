@@ -1,9 +1,11 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 import { materialReducer } from '../features/materialSlice';
+import { registroReducer } from '../features/registroSlice';
 
 export const store = configureStore({
   reducer: {
     material: materialReducer,
+    registro: registroReducer,
   },
 });
 

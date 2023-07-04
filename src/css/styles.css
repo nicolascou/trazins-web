@@ -6,11 +6,10 @@
 }
 
 .title {
-  color: rgb(173, 233, 254);
+  color: rgb(213, 227, 243);
 }
 
 .navbar-border {
-  border-bottom: 2px solid rgb(173, 233, 254);
   box-shadow: 0 4px 10px rgb(173, 233, 254);
 }
 

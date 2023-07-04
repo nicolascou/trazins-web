@@ -82,6 +82,12 @@ const Materiales = () => {
             ))}
           </tbody>
         </table>
+        {materialList.length === 0 && (
+          <div className='mt-3'>
+            <p>No has añadido ningún material</p>
+            <p>Presiona "Buscar" para ver los materiales disponibles</p>
+          </div>
+        )}
       </div>
       <div className='col-md-4 d-flex align-items-start mt-5'>
         <div className='d-flex flex-column align-items-center'>

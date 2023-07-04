@@ -29,23 +29,26 @@ const BotonesTipos = () => {
   }, [selectedMaterials]);
 
   return (
-    <div className='form-group mt-5'>
-      <Link to='/material?tipo=A' className='tipo-boton'>
-        <div className='tipo-boton__wrapper'>
-          A<span className='counter-circle'>{typesCounter['A']}</span>
-        </div>
-      </Link>
-      <Link to='/material?tipo=B' className='tipo-boton'>
-        <div className='tipo-boton__wrapper'>
-          B<span className='counter-circle'>{typesCounter['B']}</span>
-        </div>
-      </Link>
-      <Link to='/material?tipo=C' className='tipo-boton'>
-        <div className='tipo-boton__wrapper'>
-          C<span className='counter-circle'>{typesCounter['C']}</span>
-        </div>
-      </Link>
-    </div>
+    <>
+      <p className='mt-5'>Tipos de material:</p>
+      <div className='form-group'>
+        <Link to='/material?tipo=A' className='tipo-boton'>
+          <div className='tipo-boton__wrapper'>
+            A<span className='counter-circle'>{typesCounter['A']}</span>
+          </div>
+        </Link>
+        <Link to='/material?tipo=B' className='tipo-boton'>
+          <div className='tipo-boton__wrapper'>
+            B<span className='counter-circle'>{typesCounter['B']}</span>
+          </div>
+        </Link>
+        <Link to='/material?tipo=C' className='tipo-boton'>
+          <div className='tipo-boton__wrapper'>
+            C<span className='counter-circle'>{typesCounter['C']}</span>
+          </div>
+        </Link>
+      </div>
+    </>
   );
 };
 

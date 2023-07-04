@@ -5,12 +5,14 @@ import { getAllMaterials } from '../features/materialThunks';
 import { toast } from 'react-toastify';
 import { selectMaterial } from '../features/materialSlice';
 import BotonesTipos from './BotonesTipos';
+import { cleanRegistro, setRegistro } from '../features/registroSlice';
 
 const Registro = () => {
   const [inputCode, setInputCode] = useState('');
 
   const dispatch = useAppDispatch();
   const { allMaterials, selectedMaterials } = useAppSelector((state) => state.material.data);
+  const { intervencion, fecha, gabinete, numeroHistoriaClinica } = useAppSelector((state) => state.registro);
 
   const navigate = useNavigate();
   const formRef = useRef(null);
@@ -64,7 +66,25 @@ const Registro = () => {
         },
         body: JSON.stringify(bodyObj),
       });
+
+      dispatch(cleanRegistro());
+
       navigate('/');
+    }
+  };
+
+  const saveRegistro = () => {
+    if (formRef.current) {
+      const formData = new FormData(formRef.current);
+
+      dispatch(
+        setRegistro({
+          intervencion: formData.get('intervencion')?.toString() || '',
+          gabinete: formData.get('gabinete')?.toString() || '',
+          numeroHistoriaClinica: formData.get('numeroHistoriaClinica')?.toString() || '',
+          fecha: formData.get('fecha')?.toString() || '',
+        })
+      );
     }
   };
 
@@ -79,29 +99,23 @@ const Registro = () => {
               <div className='col-md-5'>
                 <div className='form-group text-start'>
                   <label className='control-label mb-2 ms-2'>Intervención:</label>
-                  <input name='intervencion' required className='form-control mb-3' />
+                  <input name='intervencion' defaultValue={intervencion} required className='form-control mb-3' />
                   <span className='text-danger'></span>
                 </div>
                 <div className='form-group text-start'>
                   <label className='control-label mb-2 ms-2'>Gabinete:</label>
-                  <input name='gabinete' required className='form-control mb-3' />
+                  <input name='gabinete' defaultValue={gabinete} required className='form-control mb-3' />
                   <span className='text-danger'></span>
                 </div>
                 <div className='d-flex align-items-center gap-3 justify-content-between'>
-                  <div className='form-group'>
-                    <label className='control-label mb-2'>Nº Historial Clínico:</label>
-                    <input name='numeroHistoriaClinica' required className='form-control mb-3' />
+                  <div className='form-group text-start'>
+                    <label className='control-label mb-2 ms-2'>Nº Historial Clínico:</label>
+                    <input name='numeroHistoriaClinica' defaultValue={numeroHistoriaClinica} required className='form-control mb-3' />
                     <span className='text-danger'></span>
                   </div>
-                  <div className='form-group'>
-                    <label className='control-label mb-2'>Fecha:</label>
-                    <input
-                      name='fecha'
-                      required
-                      type='datetime-local'
-                      defaultValue={new Date().toISOString().slice(0, 16)}
-                      className='form-control mb-3'
-                    />
+                  <div className='form-group text-start'>
+                    <label className='control-label mb-2 ms-2'>Fecha:</label>
+                    <input name='fecha' required type='datetime-local' defaultValue={fecha} className='form-control mb-3' />
                     <span className='text-danger'></span>
                   </div>
                 </div>
@@ -117,7 +131,9 @@ const Registro = () => {
                   </div>
                   <span className='text-danger'></span>
                 </div>
-                <BotonesTipos />
+                <div onClick={saveRegistro}>
+                  <BotonesTipos />
+                </div>
               </div>
             </div>
             <div className='form-group m-auto'>
