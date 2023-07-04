@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { getAllMaterials } from '../features/materialThunks';
 import { toast } from 'react-toastify';
 import { selectMaterial } from '../features/materialSlice';
+import BotonesTipos from './BotonesTipos';
 
 const Registro = () => {
   const [inputCode, setInputCode] = useState('');
@@ -76,13 +77,13 @@ const Registro = () => {
             <div asp-validation-summary='ModelOnly' className='text-danger'></div>
             <div className='d-flex justify-content-between'>
               <div className='col-md-5'>
-                <div className='form-group'>
-                  <label className='control-label mb-2'>Intervención:</label>
+                <div className='form-group text-start'>
+                  <label className='control-label mb-2 ms-2'>Intervención:</label>
                   <input name='intervencion' required className='form-control mb-3' />
                   <span className='text-danger'></span>
                 </div>
-                <div className='form-group'>
-                  <label className='control-label mb-2'>Gabinete:</label>
+                <div className='form-group text-start'>
+                  <label className='control-label mb-2 ms-2'>Gabinete:</label>
                   <input name='gabinete' required className='form-control mb-3' />
                   <span className='text-danger'></span>
                 </div>
@@ -116,23 +117,7 @@ const Registro = () => {
                   </div>
                   <span className='text-danger'></span>
                 </div>
-                <div className='form-group mt-5'>
-                  <Link to='/material?tipo=A' className='tipo-boton'>
-                    <div className='tipo-boton__wrapper'>
-                      A<span className='counter-circle'>0</span>
-                    </div>
-                  </Link>
-                  <Link to='/material?tipo=B' className='tipo-boton'>
-                    <div className='tipo-boton__wrapper'>
-                      B<span className='counter-circle'>0</span>
-                    </div>
-                  </Link>
-                  <Link to='/material?tipo=C' className='tipo-boton'>
-                    <div className='tipo-boton__wrapper'>
-                      C<span className='counter-circle'>0</span>
-                    </div>
-                  </Link>
-                </div>
+                <BotonesTipos />
               </div>
             </div>
             <div className='form-group m-auto'>
