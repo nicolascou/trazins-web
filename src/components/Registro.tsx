@@ -1,7 +1,45 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../app/hooks';
+import { getAllMaterials } from '../features/materialThunks';
+import { addMaterialToRegistro } from '../features/registroSlice';
+import { toast } from 'react-toastify';
 
 const Registro = () => {
+  const [inputCode, setInputCode] = useState('');
+
+  const dispatch = useAppDispatch();
+  const { registro, material } = useAppSelector((state) => state);
+  const { materials } = material;
+
+  useEffect(() => {
+    dispatch(getAllMaterials());
+  }, [dispatch]);
+
+  const addMaterial = () => {
+    for (let material of registro.materials) {
+      if (material.codigo === inputCode) {
+        toast.error('El material ya está añadido');
+        return;
+      }
+    }
+
+    let found = false;
+    for (let material of materials) {
+      if (material.codigo === inputCode) {
+        dispatch(addMaterialToRegistro(material));
+        found = true;
+        break;
+      }
+    }
+    if (found) {
+      setInputCode('');
+      toast.success('Material Añadido!');
+    } else {
+      toast.error('Material No encontrado');
+    }
+  };
+
   const handleSubmit = () => {
     return;
   };
@@ -42,8 +80,8 @@ const Registro = () => {
                 <div className='form-group text-start'>
                   <label className='control-label mb-2 ms-2'>Código Material:</label>
                   <div className='d-flex mb-3 align-items-center'>
-                    <input className='form-control me-2' />
-                    <button type='button' className='btn form-boton'>
+                    <input className='form-control me-2' value={inputCode} onChange={(e) => setInputCode(e.target.value)} />
+                    <button onClick={addMaterial} type='button' className='btn form-boton'>
                       Añadir Material
                     </button>
                   </div>

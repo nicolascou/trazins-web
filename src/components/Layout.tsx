@@ -1,5 +1,7 @@
 import React from 'react';
 import logoImg from '../img/logo.jpg';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 interface ILayout {
   children: React.ReactNode;
@@ -8,6 +10,7 @@ interface ILayout {
 const Layout: React.FC<ILayout> = ({ children }) => {
   return (
     <>
+      <ToastContainer autoClose={2000} />
       <header>
         <nav className='navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white navbar-border mb-3'>
           <h1 className='m-auto mb-2 mt-2 title'>TRAZ INS - Gestión y Trazabilidad del Instrumental Quirúrgico</h1>
@@ -21,7 +24,7 @@ const Layout: React.FC<ILayout> = ({ children }) => {
           <img src={logoImg} className='mt-5' width='275' height='200' alt='Traz Ins Logo' />
         </div>
       </div>
-      <footer className='border-top footer text-muted'>
+      <footer className='border-top footer text-muted p-2'>
         <div className='container'>&copy; 2023 - TrazinsApp</div>
       </footer>
     </>
