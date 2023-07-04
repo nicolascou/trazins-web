@@ -1,0 +1,80 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Trebuchet MS", sans-serif;
+}
+
+.title {
+  color: rgb(173, 233, 254);
+}
+
+.navbar-border {
+  border-bottom: 2px solid rgb(173, 233, 254);
+  box-shadow: 0 4px 10px rgb(173, 233, 254);
+}
+
+.color-dark {
+  color: rgb(78, 91, 103);
+}
+
+.form-boton {
+  background-color: rgb(46, 116, 195);
+  color: white;
+  min-width: 150px;
+}
+.form-boton:hover {
+  background-color: rgb(46, 116, 195);
+  color: white;
+}
+
+.guardar-boton {
+  border: none;
+  height: 50px;
+  border-radius: 10px;
+}
+
+.tipo-boton {
+  border-radius: 50%;
+  text-decoration: none;
+  display: inline-block;
+  vertical-align: middle;
+  border: none;
+  background-color: rgb(46, 116, 195);
+  color: white;
+  font-weight: 700;
+  height: 70px;
+  width: 70px;
+  margin: 0 5px;
+  position: relative;
+}
+.tipo-boton:hover {
+  color: white;
+}
+.tipo-boton__wrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.counter-circle {
+  position: absolute;
+  top: 75%;
+  right: 0;
+  border-radius: 50%;
+  background-color: white;
+  border: none;
+  box-shadow: 2px 4px 4px #777;
+  height: 35px;
+  width: 35px;
+  color: black;
+  font-size: 15px;
+  font-weight: 400;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/*# sourceMappingURL=styles.css.map */
