@@ -1,16 +1,15 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { getAllMaterials } from '../features/materialThunks';
-import { addMaterialToRegistro } from '../features/registroSlice';
 import { toast } from 'react-toastify';
+import { selectMaterial } from '../features/materialSlice';
 
 const Registro = () => {
   const [inputCode, setInputCode] = useState('');
 
   const dispatch = useAppDispatch();
-  const { registro, material } = useAppSelector((state) => state);
-  const { materials } = material;
+  const { allMaterials, selectedMaterials } = useAppSelector((state) => state.material.data);
 
   const navigate = useNavigate();
   const formRef = useRef(null);
@@ -20,7 +19,7 @@ const Registro = () => {
   }, [dispatch]);
 
   const addMaterial = () => {
-    for (let material of registro.materials) {
+    for (let material of selectedMaterials) {
       if (material.codigo === inputCode) {
         toast.error('El material ya está añadido');
         return;
@@ -28,9 +27,9 @@ const Registro = () => {
     }
 
     let found = false;
-    for (let material of materials) {
+    for (let material of allMaterials) {
       if (material.codigo === inputCode) {
-        dispatch(addMaterialToRegistro(material));
+        dispatch(selectMaterial(material));
         found = true;
         break;
       }
@@ -43,7 +42,7 @@ const Registro = () => {
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async () => {
     if (formRef.current) {
       const formData = new FormData(formRef.current);
 
@@ -54,7 +53,7 @@ const Registro = () => {
           numeroHistoriaClinica: formData.get('numeroHistoriaClinica')?.toString(),
           fecha: formData.get('fecha')?.toString(),
         },
-        materiales: registro.materials,
+        materiales: selectedMaterials,
       };
 
       await fetch('http://localhost:5001/registro', {

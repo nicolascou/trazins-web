@@ -1,15 +1,21 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { IMaterial } from '../types/models';
 import { getAllMaterials } from './materialThunks';
 
 interface MaterialState {
-  materials: IMaterial[];
+  data: {
+    allMaterials: IMaterial[];
+    selectedMaterials: IMaterial[];
+  };
   error: any;
   status: string;
 }
 
 const initialState = {
-  materials: [],
+  data: {
+    allMaterials: [],
+    selectedMaterials: [],
+  },
   error: null,
   status: 'idle',
 } as MaterialState;
@@ -17,7 +23,11 @@ const initialState = {
 export const materialSlice = createSlice({
   name: 'material',
   initialState,
-  reducers: {},
+  reducers: {
+    selectMaterial(state, action: PayloadAction<IMaterial>) {
+      state.data.selectedMaterials.push(action.payload);
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getAllMaterials.rejected, (state, action) => {
@@ -28,10 +38,12 @@ export const materialSlice = createSlice({
         state.status = 'pending';
       })
       .addCase(getAllMaterials.fulfilled, (state, action) => {
-        state.materials = action.payload;
+        state.data.allMaterials = action.payload;
         state.status = 'fulfilled';
       });
   },
 });
 
 export const materialReducer = materialSlice.reducer;
+
+export const { selectMaterial } = materialSlice.actions;
