@@ -4,16 +4,16 @@ import { toast } from 'react-toastify';
 
 const useMaterialActions = () => {
   const dispatch = useAppDispatch();
-  const { selectedMaterials, allMaterials } = useAppSelector((state) => state.material.data);
+  const { selectedMaterials, allMaterials } = useAppSelector((state) => state.material);
 
-  const addMaterial = (inputCode: string) => {
-    if (!/^[A-C][0-9]{4}$/.test(inputCode)) {
+  const addMaterial = (code: string) => {
+    if (!/^[A-C][0-9]{4}$/.test(code)) {
       toast.error('Código de material inválido');
       return;
     }
 
     for (let material of selectedMaterials) {
-      if (material.codigo === inputCode) {
+      if (material.codigo === code) {
         toast.error('El material ya está añadido');
         return;
       }
@@ -21,7 +21,7 @@ const useMaterialActions = () => {
 
     let found = false;
     for (let material of allMaterials) {
-      if (material.codigo === inputCode) {
+      if (material.codigo === code) {
         dispatch(selectMaterial(material));
         found = true;
         break;
@@ -34,12 +34,12 @@ const useMaterialActions = () => {
     }
   };
 
-  const removeMaterial = (deleteInputCode: string) => {
-    if (!/^[A-C][0-9]{4}$/.test(deleteInputCode)) {
+  const removeMaterial = (code: string) => {
+    if (!/^[A-C][0-9]{4}$/.test(code)) {
       toast.error('Código de material inválido');
       return;
     }
-    dispatch(deleteMaterial(deleteInputCode));
+    dispatch(deleteMaterial(code));
     toast.success('Material eliminado!');
   };
 

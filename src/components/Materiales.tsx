@@ -6,7 +6,7 @@ import { getAllMaterials } from '../features/materialThunks';
 import useMaterialActions from '../hooks/useMaterialActions';
 
 const Materiales = () => {
-  const { selectedMaterials, allMaterials } = useAppSelector((state) => state.material.data);
+  const { selectedMaterials, status } = useAppSelector((state) => state.material);
   const [materialList, setMaterialList] = useState<IMaterial[]>([]);
 
   const [addInputCode, setAddInputCode] = useState('');
@@ -24,10 +24,10 @@ const Materiales = () => {
 
   useEffect(() => {
     setMaterialList(selectedMaterials.filter((material) => material.tipo === type));
-    if (allMaterials.length === 0) {
+    if (status === 'idle') {
       dispatch(getAllMaterials());
     }
-  }, [selectedMaterials, type, allMaterials.length, dispatch]);
+  }, [selectedMaterials, type, status, dispatch]);
 
   const { addMaterial, removeMaterial } = useMaterialActions();
 

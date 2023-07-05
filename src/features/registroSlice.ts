@@ -1,27 +1,21 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-
-interface RegistroState {
-  intervencion: string;
-  gabinete: string;
-  numeroHistoriaClinica: string;
-  fecha: string;
-}
+import { IRegistro } from '../types/models';
 
 const initialState = {
   intervencion: '',
   gabinete: '',
   numeroHistoriaClinica: '',
   fecha: new Date().toISOString().slice(0, 16),
-} as RegistroState;
+} as IRegistro;
 
 export const registroSlice = createSlice({
   name: 'registro',
   initialState,
   reducers: {
-    setRegistro(state, action: PayloadAction<RegistroState>) {
+    setRegistro(state, action: PayloadAction<IRegistro>) {
       return action.payload;
     },
-    cleanRegistro(state) {
+    cleanRegistro() {
       return initialState;
     },
   },

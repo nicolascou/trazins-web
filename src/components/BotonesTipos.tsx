@@ -13,7 +13,7 @@ const BotonesTipos = () => {
     C: 0,
   });
 
-  const { selectedMaterials } = useAppSelector((state) => state.material.data);
+  const { selectedMaterials } = useAppSelector((state) => state.material);
 
   useEffect(() => {
     const updatedCounter: ITypesCounter = {
