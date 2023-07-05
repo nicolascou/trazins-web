@@ -2,16 +2,15 @@ import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { getAllMaterials } from '../features/materialThunks';
-import { toast } from 'react-toastify';
-import { selectMaterial } from '../features/materialSlice';
 import BotonesTipos from './BotonesTipos';
 import { cleanRegistro, setRegistro } from '../features/registroSlice';
+import useMaterialActions from '../hooks/useMaterialActions';
 
 const Registro = () => {
   const [inputCode, setInputCode] = useState('');
 
   const dispatch = useAppDispatch();
-  const { allMaterials, selectedMaterials } = useAppSelector((state) => state.material.data);
+  const { selectedMaterials } = useAppSelector((state) => state.material.data);
   const { intervencion, fecha, gabinete, numeroHistoriaClinica } = useAppSelector((state) => state.registro);
 
   const navigate = useNavigate();
@@ -21,28 +20,11 @@ const Registro = () => {
     dispatch(getAllMaterials());
   }, [dispatch]);
 
-  const addMaterial = () => {
-    for (let material of selectedMaterials) {
-      if (material.codigo === inputCode) {
-        toast.error('El material ya está añadido');
-        return;
-      }
-    }
+  const { addMaterial } = useMaterialActions();
 
-    let found = false;
-    for (let material of allMaterials) {
-      if (material.codigo === inputCode) {
-        dispatch(selectMaterial(material));
-        found = true;
-        break;
-      }
-    }
-    if (found) {
-      setInputCode('');
-      toast.success('Material Añadido!');
-    } else {
-      toast.error('Material No encontrado');
-    }
+  const handleAddMaterial = () => {
+    addMaterial(inputCode);
+    setInputCode('');
   };
 
   const handleSubmit = async () => {
@@ -126,7 +108,7 @@ const Registro = () => {
                   <label className='control-label mb-2 ms-2'>Código Material:</label>
                   <div className='d-flex mb-3 align-items-center'>
                     <input className='form-control me-2' value={inputCode} onChange={(e) => setInputCode(e.target.value)} />
-                    <button onClick={addMaterial} type='button' className='btn form-boton'>
+                    <button onClick={handleAddMaterial} type='button' className='btn form-boton'>
                       Añadir Material
                     </button>
                   </div>

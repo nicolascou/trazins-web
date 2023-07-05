@@ -2,9 +2,8 @@ import { useEffect, useState } from 'react';
 import { IMaterial } from '../types/models';
 import { Link, useLocation } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
-import { toast } from 'react-toastify';
-import { selectMaterial, deleteMaterial } from '../features/materialSlice';
 import { getAllMaterials } from '../features/materialThunks';
+import useMaterialActions from '../hooks/useMaterialActions';
 
 const Materiales = () => {
   const { selectedMaterials, allMaterials } = useAppSelector((state) => state.material.data);
@@ -30,43 +29,16 @@ const Materiales = () => {
     }
   }, [selectedMaterials, type, allMaterials.length, dispatch]);
 
-  const addMaterial = () => {
-    if (!/^[A-C][0-9]{4}$/.test(addInputCode)) {
-      toast.error('Código de material inválido');
-      return;
-    }
+  const { addMaterial, removeMaterial } = useMaterialActions();
 
-    for (let material of selectedMaterials) {
-      if (material.codigo === addInputCode) {
-        toast.error('El material ya está añadido');
-        return;
-      }
-    }
-
-    let found = false;
-    for (let material of allMaterials) {
-      if (material.codigo === addInputCode) {
-        dispatch(selectMaterial(material));
-        found = true;
-        break;
-      }
-    }
-    if (found) {
-      setAddInputCode('');
-      toast.success('Material Añadido!');
-    } else {
-      toast.error('Material No encontrado');
-    }
+  const handleAddMaterial = () => {
+    addMaterial(addInputCode);
+    setAddInputCode('');
   };
 
-  const remove = () => {
-    if (!/^[A-C][0-9]{4}$/.test(deleteInputCode)) {
-      toast.error('Código de material inválido');
-      return;
-    }
-    dispatch(deleteMaterial(deleteInputCode));
+  const handleRemoveMaterial = () => {
+    removeMaterial(deleteInputCode);
     setDeleteInputCode('');
-    toast.success('Material eliminado!');
   };
 
   return (
@@ -102,13 +74,13 @@ const Materiales = () => {
         <div className='d-flex flex-column align-items-center'>
           <div className='d-flex gap-2 my-4'>
             <input type='text' value={addInputCode} onChange={(e) => setAddInputCode(e.target.value)} className='form-control' />
-            <button onClick={addMaterial} className='btn form-boton'>
+            <button onClick={handleAddMaterial} className='btn form-boton'>
               Añadir
             </button>
           </div>
           <div className='d-flex gap-2 my-4'>
             <input type='text' value={deleteInputCode} onChange={(e) => setDeleteInputCode(e.target.value)} className='form-control' />
-            <button onClick={remove} className='btn form-boton'>
+            <button onClick={handleRemoveMaterial} className='btn form-boton'>
               Eliminar
             </button>
           </div>
