@@ -33,7 +33,9 @@ const Registro = () => {
     }
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
     await fetch(process.env.REACT_APP_API_URL + '/registro', {
       method: 'POST',
       headers: {
@@ -47,7 +49,7 @@ const Registro = () => {
 
     dispatch(cleanRegistro());
 
-    navigate('/');
+    window.location.reload();
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
