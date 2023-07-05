@@ -5,6 +5,7 @@ import { getAllMaterials } from '../features/materialThunks';
 import BotonesTipos from './BotonesTipos';
 import { cleanRegistro, setRegistro } from '../features/registroSlice';
 import useMaterialActions from '../hooks/useMaterialActions';
+import { toast } from 'react-toastify';
 
 const Registro = () => {
   const [inputCode, setInputCode] = useState('');
@@ -23,8 +24,13 @@ const Registro = () => {
   }, [dispatch, status]);
 
   const handleAddMaterial = () => {
-    addMaterial(inputCode);
-    setInputCode('');
+    try {
+      addMaterial(inputCode);
+      toast.success('Material añadido!');
+      setInputCode('');
+    } catch (err: any) {
+      toast.error(err.message);
+    }
   };
 
   const handleSubmit = async () => {

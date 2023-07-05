@@ -4,6 +4,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { getAllMaterials } from '../features/materialThunks';
 import useMaterialActions from '../hooks/useMaterialActions';
+import { toast } from 'react-toastify';
 
 const Materiales = () => {
   const { selectedMaterials, status } = useAppSelector((state) => state.material);
@@ -32,13 +33,23 @@ const Materiales = () => {
   const { addMaterial, removeMaterial } = useMaterialActions();
 
   const handleAddMaterial = () => {
-    addMaterial(addInputCode);
-    setAddInputCode('');
+    try {
+      addMaterial(addInputCode);
+      toast.success('Material añadido!');
+      setAddInputCode('');
+    } catch (err: any) {
+      toast.error(err.message);
+    }
   };
 
   const handleRemoveMaterial = () => {
-    removeMaterial(deleteInputCode);
-    setDeleteInputCode('');
+    try {
+      removeMaterial(deleteInputCode);
+      toast.success('Material eliminado!');
+      setDeleteInputCode('');
+    } catch (err: any) {
+      toast.error(err.message);
+    }
   };
 
   return (

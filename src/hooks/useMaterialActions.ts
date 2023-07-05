@@ -1,6 +1,5 @@
 import { useAppDispatch, useAppSelector } from './../app/hooks';
 import { deleteMaterial, selectMaterial } from '../features/materialSlice';
-import { toast } from 'react-toastify';
 
 const useMaterialActions = () => {
   const dispatch = useAppDispatch();
@@ -8,39 +7,30 @@ const useMaterialActions = () => {
 
   const addMaterial = (code: string) => {
     if (!/^[A-C][0-9]{4}$/.test(code)) {
-      toast.error('Código de material inválido');
-      return;
+      throw new Error('Código de material inválido');
     }
 
     for (let material of selectedMaterials) {
       if (material.codigo === code) {
-        toast.error('El material ya está añadido');
+        throw new Error('El material ya está añadido');
+      }
+    }
+
+    for (let material of allMaterials) {
+      if (material.codigo === code) {
+        dispatch(selectMaterial(material));
         return;
       }
     }
 
-    let found = false;
-    for (let material of allMaterials) {
-      if (material.codigo === code) {
-        dispatch(selectMaterial(material));
-        found = true;
-        break;
-      }
-    }
-    if (found) {
-      toast.success('Material Añadido!');
-    } else {
-      toast.error('Material No encontrado');
-    }
+    throw new Error('Material no encontrado');
   };
 
   const removeMaterial = (code: string) => {
     if (!/^[A-C][0-9]{4}$/.test(code)) {
-      toast.error('Código de material inválido');
-      return;
+      throw new Error('Código de material inválido');
     }
     dispatch(deleteMaterial(code));
-    toast.success('Material eliminado!');
   };
 
   return { addMaterial, removeMaterial };

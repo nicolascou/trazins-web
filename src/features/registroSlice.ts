@@ -1,11 +1,14 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { IRegistro } from '../types/models';
 
+const currentDate = new Date();
+currentDate.setHours(currentDate.getHours() + 2);
+
 const initialState = {
   intervencion: '',
   gabinete: '',
   numeroHistoriaClinica: '',
-  fecha: new Date().toISOString().slice(0, 16),
+  fecha: currentDate.toISOString().slice(0, 16),
 } as IRegistro;
 
 export const registroSlice = createSlice({
