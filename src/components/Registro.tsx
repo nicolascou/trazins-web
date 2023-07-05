@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { getAllMaterials } from '../features/materialThunks';
 import BotonesTipos from './BotonesTipos';
@@ -14,8 +13,6 @@ const Registro = () => {
   const dispatch = useAppDispatch();
   const { status, selectedMaterials } = useAppSelector((state) => state.material);
   const { addMaterial } = useMaterialActions();
-
-  const navigate = useNavigate();
 
   useEffect(() => {
     if (status === 'idle') {
@@ -36,7 +33,7 @@ const Registro = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    await fetch(process.env.REACT_APP_API_URL + '/registro', {
+    const res = await fetch(process.env.REACT_APP_API_URL + '/registro', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -49,7 +46,9 @@ const Registro = () => {
 
     dispatch(cleanRegistro());
 
-    window.location.reload();
+    if (res.status === 201) {
+      window.location.reload();
+    }
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
