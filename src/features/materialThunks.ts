@@ -5,7 +5,8 @@ export const getAllMaterials = createAsyncThunk<IMaterial[], void, { rejectValue
   'material/getAllMaterials',
   async (_, { rejectWithValue }) => {
     try {
-      const res = await fetch('http://localhost:5001/material?tipo=all');
+      console.log(process.env.REACT_APP_API_URL);
+      const res = await fetch(process.env.REACT_APP_API_URL + '/material?tipo=all');
       return await res.json();
     } catch (error) {
       return rejectWithValue(error as Error);

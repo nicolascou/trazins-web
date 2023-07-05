@@ -19,7 +19,7 @@ const Materiales = () => {
   const type = searchParams.get('tipo');
 
   const searchAll = async () => {
-    const res = await fetch(`http://localhost:5001/material?tipo=${type}`);
+    const res = await fetch(process.env.REACT_APP_API_URL + `/material?tipo=${type}`);
     setMaterialList(await res.json());
   };
 

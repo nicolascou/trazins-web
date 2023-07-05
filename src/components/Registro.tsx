@@ -59,7 +59,7 @@ const Registro = () => {
         materiales: selectedMaterials,
       };
 
-      await fetch('http://localhost:5001/registro', {
+      await fetch(process.env.REACT_APP_API_URL + '/registro', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -76,6 +76,7 @@ const Registro = () => {
   const saveRegistro = () => {
     if (formRef.current) {
       const formData = new FormData(formRef.current);
+      console.log(formData);
 
       dispatch(
         setRegistro({
